@@ -1,28 +1,28 @@
 {
-    "name": "react-offsite",
-    "version": "0.1.0",
-    "private": true,
-    "dependencies": {
-      "axios": "^0.18.0",
-      "cors": "^2.8.5",
-      "firebase": "^5.8.2",
-      "react-scripts": "2.1.3"
-    },
-    "scripts": {
-      "start": "node app.js",
-      "lint": "./node_modules/.bin/eslint",
-      "format": "./node_modules/prettier/bin-prettier.js --write 'server/**/*.{js,jsx}'",
-      "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run start"
-    },
-    "eslintConfig": {
-      "extends": "react-app"
-    },
-    "browserslist": [
-      ">0.2%",
-      "not dead",
-      "not ie <= 11",
-      "not op_mini all"
-    ],
-    "devDependencies": {}
-  }
-  
+  "name": "react-offsite",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.18.0",
+    "concurrently": "^4.1.0",
+    "cors": "^2.8.5",
+    "firebase": "^5.8.2",
+    "react-scripts": "2.1.3"
+  },
+  "scripts": {
+    "client": "cd client && npm run start",
+    "server": "node app.js",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {}
+}

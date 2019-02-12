@@ -33,7 +33,7 @@
     "extends": "react-app"
   },
 
-  "proxy": "http://localhost:5000",
+  "proxy": "http://localhost:5000/",
   
   "browserslist": [
     ">0.2%",
