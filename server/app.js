@@ -1,9 +1,8 @@
 const express = require('express')
 const app = express()
-const port = 3007
+const port = process.env.PORT || 5000
 const cors = require('cors')
 var bodyParser = require('body-parser')
-const fs = require('fs')
 const firebase = require('firebase')
 
 app.listen(port, () =>

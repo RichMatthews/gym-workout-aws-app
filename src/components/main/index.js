@@ -21,7 +21,7 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3007/exercises').then(data => {
+    axios.get('http://localhost:5000/exercises').then(data => {
       data.data.map(exercise => {
         this.setState({
           exercises: this.state.exercises.concat({

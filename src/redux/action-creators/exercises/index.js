@@ -1,11 +1,11 @@
-import axios from 'axios'
 import { SET_CURRENT_EXERCISE } from 'redux/types'
+import axios from 'axios'
 
 export const searchForExercise = exercise => {
   return dispatch => {
     axios({
       method: 'get',
-      url: 'http://localhost:3007/exercises',
+      url: 'http://localhost:5000/exercises',
     }).then(data => {
       const foundExercise = data.data.filter(
         ex => ex.name.toLowerCase() === exercise.value.toLowerCase()
