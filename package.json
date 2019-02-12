@@ -12,7 +12,7 @@
       "start": "node app.js",
       "lint": "./node_modules/.bin/eslint",
       "format": "./node_modules/prettier/bin-prettier.js --write 'server/**/*.{js,jsx}'",
-      "heroku-postbuild": "cd ../client && npm install --only=dev && npm install && npm run build"
+      "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
     },
     "eslintConfig": {
       "extends": "react-app"
