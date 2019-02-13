@@ -18,7 +18,7 @@ export const updateExerciseOnServer = workout => {
   return () => {
     axios({
       method: 'post',
-      url: 'http://localhost:5000/exercises',
+      url: '/exercises',
       data: {
         date: Date.now(),
         workoutExercises: workout,
@@ -31,7 +31,7 @@ export const saveStateToServer = workout => {
   return () => {
     axios({
       method: 'post',
-      url: 'http://localhost:5000/workouts',
+      url: '/workouts',
       data: {
         date: Date.now(),
         workoutExercises: workout,
@@ -44,7 +44,7 @@ export const fetchPreviousWorkouts = () => {
   return dispatch => {
     axios({
       method: 'get',
-      url: 'http://localhost:5000/workouts',
+      url: '/workouts',
     }).then(data => {
       dispatch(loadPreviousWorkoutsToStore(data.data))
     })

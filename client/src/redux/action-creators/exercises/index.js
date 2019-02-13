@@ -5,7 +5,7 @@ export const searchForExercise = exercise => {
   return dispatch => {
     axios({
       method: 'get',
-      url: 'http://localhost:5000/exercises',
+      url: '/exercises',
     }).then(data => {
       const foundExercise = data.data.filter(
         ex => ex.name.toLowerCase() === exercise.value.toLowerCase()
