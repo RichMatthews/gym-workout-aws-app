@@ -12,7 +12,7 @@
   "scripts": {
     "client": "cd client && npm run start",
     "server": "node app.js",
-    "dev": "concurrently --kill-others-on-fail \"npm server\" \"npm client\"",
+    "start": "concurrently --kill-others-on-fail \"npm server\" \"npm client\"",
     "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "eslintConfig": {
