@@ -4,6 +4,7 @@ const port = process.env.PORT || 5000;
 const cors = require("cors");
 var bodyParser = require("body-parser");
 const firebase = require("firebase");
+const path = require("path")
 
 app.listen(port, () =>
   console.log(`SERVER BOOTED SUCCESS! Listening on port ${port}!`)
