@@ -5,6 +5,7 @@ import React from 'react'
 import Select from 'react-select'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import redcross from 'assets/redcross.png'
 import styled from 'styled-components'
 import { submitWorkout } from 'redux/action-creators/workouts'
 
@@ -15,10 +16,24 @@ const Container = styled.div`
   margin-bottom: 10px;
 `
 
+const RedCrossContainer = styled.div`
+  object-fit: contain;
+  width: 15px;
+  height: 15px;
+`
+
+const TopSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+const RedCross = styled.img`
+  width: 100%;
+  height: 100%;
+`
+
 const StyledButton = styled(Button)`
-  width: 10%;
   height: 34px;
-  padding: 0;
 `
 
 const StyledField = styled(Field)`
@@ -56,7 +71,6 @@ class Workout extends React.Component {
     const date = Date.now()
     return (
       <Container>
-        <h4> New Workout </h4>
         <Formik
           initialValues={{
             workouts: [{ name: '', reps: '', sets: '', weight: '' }],
@@ -70,18 +84,23 @@ class Workout extends React.Component {
                 name="workouts"
                 render={arrayHelpers => (
                   <div>
-                    <StyledButton
-                      text="add exercise"
-                      type="button"
-                      onClick={() =>
-                        arrayHelpers.push({
-                          name: '',
-                          reps: 0,
-                          sets: 0,
-                          weight: 0,
-                        })
-                      }
-                    />
+                    <TopSection>
+                      <h4> New Workout </h4>
+                      <div>
+                        <StyledButton
+                          text="add exercise"
+                          type="button"
+                          onClick={() =>
+                            arrayHelpers.push({
+                              name: '',
+                              reps: 0,
+                              sets: 0,
+                              weight: 0,
+                            })
+                          }
+                        />
+                      </div>
+                    </TopSection>
                     {values.workouts.map((workout, index) => (
                       <FormRow key={index}>
                         <InputContainer>
@@ -107,11 +126,13 @@ class Workout extends React.Component {
                             placeholder="weight"
                             name={`workouts[${index}].weight`}
                           />
-                          <StyledButton
+                          <RedCrossContainer
                             type="button"
                             text="-"
                             onClick={() => arrayHelpers.remove(index)}
-                          />
+                          >
+                            <RedCross src={redcross} />
+                          </RedCrossContainer>
                         </InputContainer>
                       </FormRow>
                     ))}

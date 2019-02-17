@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const StyledButton = styled.button`
   width: 100%;
   padding: 10px;
-  background: #f57d63;
+  background: #3d9e7b;
 `
 
 export const Button = ({ type, text, onClick, className }) => (

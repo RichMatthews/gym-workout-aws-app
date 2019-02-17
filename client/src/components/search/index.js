@@ -18,6 +18,12 @@ const SearchContainer = styled.div`
   width: 100%;
 `
 
+const SearchResult = styled.div``
+
+const NoSearchResult = styled.div`
+  padding: 10px;
+`
+
 class Search extends React.Component {
   state = {
     searchTerm: '',
@@ -31,17 +37,20 @@ class Search extends React.Component {
     let renderSearchResult
     if (this.props.exerciseData.current.previousWeights) {
       renderSearchResult = (
-        <div>
+        <SearchResult>
           <div> Exercise {this.props.exerciseData.current.name} </div>
           <div>
-            Last weight lifted
+            Last weight lifted{' '}
             {this.props.exerciseData.current.lastWeightLifted} kg
+            <Graph currentExercise={this.props.exerciseData.current} />
           </div>
-        </div>
+        </SearchResult>
       )
     } else {
       renderSearchResult = (
-        <div> You have no previous records for this weight </div>
+        <NoSearchResult>
+          You have no previous records for this weight
+        </NoSearchResult>
       )
     }
 
@@ -59,9 +68,10 @@ class Search extends React.Component {
           onClick={() => this.props.searchForExercise(this.state.searchTerm)}
         />
         {this.props.exerciseData.searched ? (
-          <div> {renderSearchResult} </div>
+          <div>
+            {renderSearchResult}
+          </div>
         ) : null}
-        <Graph currentExercise={this.props.exerciseData.current} />
       </Container>
     )
   }
