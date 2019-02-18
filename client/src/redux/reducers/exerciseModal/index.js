@@ -1,13 +1,13 @@
 const initialState = {
-  current: 'en',
+  isOpen: false,
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'CHANGE_TO_FRENCH':
+    case 'TOGGLE_MODAL':
       return {
         ...state,
-        current: 'fr',
+        isOpen: !state.isOpen,
       }
     default:
       return state

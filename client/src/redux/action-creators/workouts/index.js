@@ -7,7 +7,7 @@ import {
 import axios from 'axios'
 
 export const submitWorkout = (workout, date) => {
-  return (dispatch, getState) => {
+  return dispatch => {
     dispatch({ type: SUBMIT_WORKOUT, workout, date })
     dispatch(saveStateToServer(workout))
     dispatch(updateExerciseOnServer(workout))

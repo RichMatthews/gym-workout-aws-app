@@ -26,6 +26,12 @@ export default (state = initialState, action) => {
         },
         searched: true,
       }
+    case 'RESET_EXERCISE_SEARCH':
+      return {
+        ...state,
+        current: '',
+        searched: false,
+      }
     default:
       return state
   }

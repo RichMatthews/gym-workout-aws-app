@@ -21,3 +21,16 @@ const setCurrentExercise = exercise => {
     exercise,
   }
 }
+
+export const resetExerciseSearch = () => {
+  return {
+    type: 'RESET_EXERCISE_SEARCH',
+  }
+}
+
+export const addExerciseToCurrentWorkout = exercise => {
+  return dispatch => {
+    dispatch({ type: 'ADD_EXERCISE_TO_CURRENT_WORKOUT', exercise })
+    dispatch({ type: 'TOGGLE_MODAL' })
+  }
+}

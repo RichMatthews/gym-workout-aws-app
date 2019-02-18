@@ -1,11 +1,12 @@
 import {
-  SUBMIT_WORKOUT,
   SAVE_WORKOUT,
+  SUBMIT_WORKOUT,
   TOGGLE_SHOWING_WORKOUT,
 } from 'redux/types'
 
 const initialState = {
   previousWorkouts: [],
+  currentWorkout: [],
 }
 
 export default (state = initialState, action) => {
@@ -33,6 +34,11 @@ export default (state = initialState, action) => {
             ? { ...workout, isShowing: !workout.isShowing }
             : workout
         ),
+      }
+    case 'ADD_EXERCISE_TO_CURRENT_WORKOUT':
+      return {
+        ...state,
+        currentWorkout: state.currentWorkout.concat(action.exercise)
       }
     default:
       return state

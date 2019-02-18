@@ -11,7 +11,7 @@ import thunk from 'redux-thunk'
 const GlobalStyle = createGlobalStyle`
   body {
     font-family: trebuchet;
-    background-color: #fff;
+    background-color: #000;
     color: #a1a1a1;
   }
 `
