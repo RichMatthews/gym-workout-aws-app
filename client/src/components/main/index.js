@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 
 import { Button } from 'components/shared/button'
 import CurrentWorkoutModal from 'components/currentWorkoutModal'
+import { EXERCISE_URL } from 'urls'
 import Modal from 'react-modal'
 import PreviousWorkouts from 'components/previousWorkouts'
 import Search from 'components/search'
@@ -88,7 +89,8 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://34.239.110.214:5000/exercises').then(data => {
+    console.log(process.env)
+    axios.get(EXERCISE_URL(process)).then(data => {
       data.data.map(exercise => {
         this.setState({
           exercises: this.state.exercises.concat({

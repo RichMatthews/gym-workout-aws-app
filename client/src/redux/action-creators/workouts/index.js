@@ -1,3 +1,4 @@
+import { EXERCISE_URL, WORKOUT_URL } from 'urls'
 import {
   SAVE_WORKOUT,
   SUBMIT_WORKOUT,
@@ -18,7 +19,7 @@ export const updateExerciseOnServer = workout => {
   return () => {
     axios({
       method: 'post',
-      url: '/exercises',
+      url: EXERCISE_URL(process),
       data: {
         date: Date.now(),
         workoutExercises: workout,
@@ -31,7 +32,7 @@ export const saveStateToServer = workout => {
   return () => {
     axios({
       method: 'post',
-      url: '/workouts',
+      url: WORKOUT_URL(process),
       data: {
         date: Date.now(),
         workoutExercises: workout,
@@ -44,7 +45,7 @@ export const fetchPreviousWorkouts = () => {
   return dispatch => {
     axios({
       method: 'get',
-      url: '/workouts',
+      url: WORKOUT_URL(process),
     }).then(data => {
       dispatch(loadPreviousWorkoutsToStore(data.data))
     })
