@@ -1,26 +1,31 @@
+import React from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
+import axios from 'axios'
+
 import {
   resetExerciseSearch,
   searchForExercise,
 } from 'redux/action-creators/exercises'
-
-import { Button } from 'components/shared/button'
-import Graph from 'components/graph'
-import React from 'react'
+import { EXERCISE_URL } from 'urls'
 import { StyledSelect } from 'components/workout'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import styled from 'styled-components'
+import { SearchedExercise } from './searchedExercise'
 import { toggleModal } from 'redux/action-creators/modal'
+import { addExerciseToCurrentWorkout } from 'redux/action-creators/exercises'
+import { Button } from 'components/shared/button'
 
 const Container = styled.div`
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 4px 0px;
-  background: #000;
-  padding: 3px;
-  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  margin: auto;
 `
 
 const SearchContainer = styled.div`
-  width: 100%;
+  width: 90%;
+  margin: auto;
 `
 
 const SearchResult = styled.div`
@@ -34,6 +39,20 @@ const NoSearchResult = styled.div`
 class Search extends React.Component {
   state = {
     searchTerm: '',
+    exercises: [],
+  }
+
+  componentDidMount() {
+    axios.get(EXERCISE_URL()).then(data => {
+      data.data.map(exercise => {
+        this.setState({
+          exercises: this.state.exercises.concat({
+            value: exercise.name,
+            label: exercise.name,
+          }),
+        })
+      })
+    })
   }
 
   handleChange(value) {
@@ -41,46 +60,30 @@ class Search extends React.Component {
   }
 
   render() {
-    let renderSearchResult
-    if (this.props.exerciseData.current.previousWeights) {
-      renderSearchResult = (
-        <SearchResult>
-          <div> Exercise {this.props.exerciseData.current.name} </div>
-          <div>
-            Last weight lifted{' '}
-            {this.props.exerciseData.current.lastWeightLifted}kg
-            <Graph currentExercise={this.props.exerciseData.current} />
-          </div>
-        </SearchResult>
-      )
-    } else {
-      renderSearchResult = (
-        <NoSearchResult>
-          You have no previous records for this weight
-        </NoSearchResult>
-      )
-    }
-
+    const { exerciseData, resetExerciseSearch } = this.props
     return (
       <Container>
-        <SearchContainer>
-          <StyledSelect
-            options={this.props.exercises}
-            placeholder="search for an exercise"
-            onChange={value => this.handleChange(value)}
+        {!exerciseData.current ? (
+          <SearchContainer>
+            <StyledSelect
+              options={this.state.exercises}
+              placeholder="search for an exercise"
+              onChange={value => this.handleChange(value)}
+            />
+            <Button
+              text="search..."
+              onClick={() =>
+                this.props.searchForExercise(this.state.searchTerm)
+              }
+            />
+          </SearchContainer>
+        ) : (
+          <SearchedExercise
+            exerciseData={exerciseData}
+            addExerciseToCurrentWorkout={addExerciseToCurrentWorkout}
+            resetExerciseSearch={resetExerciseSearch}
           />
-        </SearchContainer>
-        <Button
-          text="search..."
-          onClick={() => this.props.searchForExercise(this.state.searchTerm)}
-        />
-        {this.props.exerciseData.searched ? (
-          <div>
-            {renderSearchResult}
-            <button onClick={() => this.props.resetExerciseSearch()}>Clear</button>
-            <button onClick={() => this.props.toggleModal()}>Add to workout</button>
-          </div>
-        ) : null}
+        )}
       </Container>
     )
   }
@@ -91,7 +94,15 @@ const mapStateToProps = ({ exerciseData }) => ({
 })
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ searchForExercise, resetExerciseSearch, toggleModal }, dispatch)
+  bindActionCreators(
+    {
+      searchForExercise,
+      resetExerciseSearch,
+      toggleModal,
+      addExerciseToCurrentWorkout,
+    },
+    dispatch
+  )
 
 export default connect(
   mapStateToProps,

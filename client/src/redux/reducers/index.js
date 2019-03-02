@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux'
-import currentWorkoutModal from './currentWorkoutModal'
+import { connectRouter } from 'connected-react-router'
+
 import exerciseData from './exerciseData'
 import exerciseModal from './exerciseModal'
 import workouts from './workouts'
 
-const rootReducer = combineReducers({
-  currentWorkoutModal,
-  exerciseData,
-  exerciseModal,
-  workouts,
-})
-
-export default rootReducer
+export default history =>
+  combineReducers({
+    router: connectRouter(history),
+    exerciseData,
+    exerciseModal,
+    workouts,
+  })

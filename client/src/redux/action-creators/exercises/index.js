@@ -6,7 +6,7 @@ export const searchForExercise = exercise => {
   return dispatch => {
     axios({
       method: 'get',
-      url: EXERCISE_URL(process),
+      url: EXERCISE_URL(),
     }).then(data => {
       const foundExercise = data.data.filter(
         ex => ex.name.toLowerCase() === exercise.value.toLowerCase()

@@ -38,7 +38,7 @@ export default (state = initialState, action) => {
     case 'ADD_EXERCISE_TO_CURRENT_WORKOUT':
       return {
         ...state,
-        currentWorkout: state.currentWorkout.concat(action.exercise)
+        currentWorkout: state.currentWorkout.concat(action.exercise),
       }
     default:
       return state

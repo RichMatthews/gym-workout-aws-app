@@ -1,5 +1,4 @@
 export const EXERCISE_URL = () => {
-  console.log(process, 'p123')
   if (process.env.NODE_ENV === 'development') {
     return '/exercises'
   }

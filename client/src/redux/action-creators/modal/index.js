@@ -1,5 +1,5 @@
 export const toggleModal = () => {
-    return {
-        type: 'TOGGLE_MODAL'
-    }
+  return {
+    type: 'TOGGLE_MODAL',
+  }
 }

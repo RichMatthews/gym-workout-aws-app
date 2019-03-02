@@ -23,7 +23,9 @@ const PreviousWorkoutContainer = styled.div`
 `
 
 const Table = styled.table`
-  > tr:nth-child(even){border-bottom: 1px solid black;}
+  > tr:nth-child(even) {
+    border-bottom: 1px solid black;
+  }
   border-collapse: collapse;
   border-spacing: 0;
 `
@@ -42,9 +44,8 @@ const WorkoutDate = styled.span`
 `
 
 class Main extends Component {
-
   state = {
-    workoutsToShow: 3
+    workoutsToShow: 3,
   }
 
   componentDidMount() {
@@ -52,50 +53,54 @@ class Main extends Component {
   }
 
   showMoreWorkouts() {
-    this.setState({workoutsToShow: this.state.workoutsToShow += 1})
+    this.setState({ workoutsToShow: (this.state.workoutsToShow += 1) })
   }
 
   render() {
-    const workoutsOrderedbyData = this.props.workouts.previousWorkouts.sort((a, b) => b.date - a.date)
+    const workoutsOrderedbyData = this.props.workouts.previousWorkouts.sort(
+      (a, b) => b.date - a.date
+    )
     return (
       <Container>
         <h4> Previous workouts </h4>
         <button onClick={() => this.showMoreWorkouts()}>show more</button>
-        {workoutsOrderedbyData.slice(0, this.state.workoutsToShow).map(workout => {
-          const date = moment(workout.date).format('DD-MM-YYYY')
-          return (
-            <div onClick={() => this.props.toggleShowingWorkout(workout)}>
-              {workout.isShowing ? (
-                <PreviousWorkoutContainer>
-                  <h3>Workout Summary</h3>
-                  {date}
-                  {'time started'}
-                  {'time ended'}
-                  <Table>
-                    <tr>
-                      <TableHeading>Exercise name</TableHeading>
-                      <TableHeading>Sets</TableHeading>
-                      <TableHeading>Reps</TableHeading>
-                      <TableHeading>Weight</TableHeading>
-                    </tr>
-                    {workout.workoutExercises.workouts.map(exercise => (
+        {workoutsOrderedbyData
+          .slice(0, this.state.workoutsToShow)
+          .map(workout => {
+            const date = moment(workout.date).format('DD-MM-YYYY')
+            return (
+              <div onClick={() => this.props.toggleShowingWorkout(workout)}>
+                {workout.isShowing ? (
+                  <PreviousWorkoutContainer>
+                    <h3>Workout Summary</h3>
+                    {date}
+                    {'time started'}
+                    {'time ended'}
+                    <Table>
                       <tr>
-                        <TableData>{exercise.name}</TableData>
-                        <TableData>{exercise.sets}</TableData>
-                        <TableData>{exercise.reps}</TableData>
-                        <TableData>{exercise.weight}kg</TableData>
+                        <TableHeading>Exercise name</TableHeading>
+                        <TableHeading>Sets</TableHeading>
+                        <TableHeading>Reps</TableHeading>
+                        <TableHeading>Weight</TableHeading>
                       </tr>
-                    ))}
-                  </Table>
-                </PreviousWorkoutContainer>
-              ) : (
-                <PreviousWorkoutContainer>
-                  <WorkoutDate> {date} Click to view workout </WorkoutDate>
-                </PreviousWorkoutContainer>
-              )}
-            </div>
-          )
-        })}
+                      {workout.workoutExercises.workouts.map(exercise => (
+                        <tr>
+                          <TableData>{exercise.name}</TableData>
+                          <TableData>{exercise.sets}</TableData>
+                          <TableData>{exercise.reps}</TableData>
+                          <TableData>{exercise.weight}kg</TableData>
+                        </tr>
+                      ))}
+                    </Table>
+                  </PreviousWorkoutContainer>
+                ) : (
+                  <PreviousWorkoutContainer>
+                    <WorkoutDate> {date} Click to view workout </WorkoutDate>
+                  </PreviousWorkoutContainer>
+                )}
+              </div>
+            )
+          })}
       </Container>
     )
   }

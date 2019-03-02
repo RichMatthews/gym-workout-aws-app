@@ -35,13 +35,23 @@ class Graph extends React.Component {
           width={350}
           height={250}
         >
-          <VerticalGridLines />
-          <HorizontalGridLines />
-          <XAxis />
-          <YAxis />
+          <XAxis
+            style={{
+              stroke: '#006cdb',
+              fontFamily: 'Hind Siliguri',
+              fontSize: '15px',
+            }}
+          />
+          <YAxis
+            style={{
+              stroke: '#006cdb',
+              fontFamily: 'Hind Siliguri',
+              fontSize: '15px',
+            }}
+          />
           <LineSeries
             data={data123}
-            style={{ stroke: 'red', strokeWidth: 3, fill: 'none' }}
+            style={{ stroke: '#006cdb', strokeWidth: 3, fill: 'none' }}
           />
         </XYPlot>
       </GraphContainer>
