@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const Container = styled.div`
   display: flex;
@@ -13,7 +14,8 @@ const Container = styled.div`
 `
 
 const Item = styled.div`
-  border: 1px solid black;
+  border: 1px solid transparent;
+  border-radius: 5px;
   margin: 5px;
   width: 40%;
   height: 110px;
@@ -22,14 +24,50 @@ const Item = styled.div`
   align-items: center;
 `
 
+const Search = styled(Item)`
+  background: #383b3f;
+`
+
+const NewWorkout = styled(Item)`
+  background: #383b3f;
+`
+
+const PreviousWorkout = styled(Item)`
+  background: #383b3f;
+`
+
+const CurrentWorkout = styled(Item)`
+  background: #383b3f;
+`
+
+const StyledLink = styled(Link)`
+  color: #000;
+  text-decoration: none;
+  font-size: 30px;
+`
+
 class Main extends Component {
   render() {
     return (
       <Container>
-        <Item>1</Item>
-        <Item>2</Item>
-        <Item>3</Item>
-        <Item>4</Item>
+        <Search>
+          <StyledLink to={'/search'}>Search </StyledLink>
+        </Search>
+        <NewWorkout>
+          <StyledLink to={'/search'}> New Workout </StyledLink>{' '}
+        </NewWorkout>
+        <PreviousWorkout>
+          <StyledLink to={'/search'}> Previous Workouts </StyledLink>{' '}
+        </PreviousWorkout>
+        <CurrentWorkout>
+          <StyledLink to={'/search'}> Current Workout </StyledLink>{' '}
+        </CurrentWorkout>
+        <CurrentWorkout>
+          <StyledLink to={'/search'}> Progress </StyledLink>{' '}
+        </CurrentWorkout>
+        <CurrentWorkout>
+          <StyledLink to={'/search'}> Help </StyledLink>{' '}
+        </CurrentWorkout>
       </Container>
     )
   }

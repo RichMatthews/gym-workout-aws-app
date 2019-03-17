@@ -1,8 +1,8 @@
 export const EXERCISE_URL = () => {
   if (process.env.NODE_ENV === 'development') {
-    return '/exercises'
+    return 'https://zn14621n56.execute-api.us-east-1.amazonaws.com/default/gymWorkout/'
   }
-  return 'http://34.239.110.214:5000/exercises'
+  return 'https://zn14621n56.execute-api.us-east-1.amazonaws.com/default/gymWorkout/'
 }
 
 export const WORKOUT_URL = process => {

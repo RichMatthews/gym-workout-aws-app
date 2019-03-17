@@ -8,9 +8,7 @@ import {
   resetExerciseSearch,
   searchForExercise,
 } from 'redux/action-creators/exercises'
-import { EXERCISE_URL } from 'urls'
 import { StyledSelect } from 'components/workout'
-import { SearchedExercise } from './searchedExercise'
 import { toggleModal } from 'redux/action-creators/modal'
 import { addExerciseToCurrentWorkout } from 'redux/action-creators/exercises'
 import { Button } from 'components/shared/button'
@@ -20,20 +18,15 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  margin: auto;
 `
 
 const SearchContainer = styled.div`
   width: 90%;
   margin: auto;
-`
-
-const SearchResult = styled.div`
-  font-size: 18px;
-`
-
-const NoSearchResult = styled.div`
-  padding: 10px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `
 
 class Search extends React.Component {
@@ -43,16 +36,23 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
-    axios.get(EXERCISE_URL()).then(data => {
-      data.data.map(exercise => {
-        this.setState({
-          exercises: this.state.exercises.concat({
+    axios
+      .get(
+        'https://zn14621n56.execute-api.us-east-1.amazonaws.com/default/gymWorkout'
+      )
+      .then(data => {
+        const exercises = data.data
+        exercises.forEach(exercise => {
+          const mergedExercise = {
+            ...exercise,
             value: exercise.name,
             label: exercise.name,
-          }),
+          }
+          this.setState({
+            exercises: this.state.exercises.concat(mergedExercise),
+          })
         })
       })
-    })
   }
 
   handleChange(value) {
@@ -60,38 +60,24 @@ class Search extends React.Component {
   }
 
   render() {
-    const { exerciseData, resetExerciseSearch } = this.props
+
     return (
       <Container>
-        {!exerciseData.current ? (
-          <SearchContainer>
-            <StyledSelect
-              options={this.state.exercises}
-              placeholder="search for an exercise"
-              onChange={value => this.handleChange(value)}
-            />
-            <Button
-              text="search..."
-              onClick={() =>
-                this.props.searchForExercise(this.state.searchTerm)
-              }
-            />
-          </SearchContainer>
-        ) : (
-          <SearchedExercise
-            exerciseData={exerciseData}
-            addExerciseToCurrentWorkout={addExerciseToCurrentWorkout}
-            resetExerciseSearch={resetExerciseSearch}
+        <SearchContainer>
+          <StyledSelect
+            options={this.state.exercises}
+            placeholder="search for an exercise"
+            onChange={value => this.handleChange(value)}
           />
-        )}
+          <Button
+            text="search..."
+            onClick={() => this.props.searchForExercise(this.state.searchTerm)}
+          />
+        </SearchContainer>
       </Container>
     )
   }
 }
-
-const mapStateToProps = ({ exerciseData }) => ({
-  exerciseData,
-})
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
@@ -105,6 +91,6 @@ const mapDispatchToProps = dispatch =>
   )
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Search)

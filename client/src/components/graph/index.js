@@ -1,7 +1,5 @@
 import {
-  HorizontalGridLines,
   LineSeries,
-  VerticalGridLines,
   XAxis,
   XYPlot,
   YAxis,

@@ -53,7 +53,7 @@ class Main extends Component {
   }
 
   showMoreWorkouts() {
-    this.setState({ workoutsToShow: (this.state.workoutsToShow += 1) })
+    this.setState({ workoutsToShow: this.state.workoutsToShow += 1 })
   }
 
   render() {

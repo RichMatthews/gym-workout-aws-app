@@ -1,16 +1,15 @@
-import { EXERCISE_URL, WORKOUT_URL } from 'urls'
+import axios from 'axios'
+
+import { WORKOUT_URL } from 'urls'
 import {
   SAVE_WORKOUT,
   SUBMIT_WORKOUT,
   TOGGLE_SHOWING_WORKOUT,
 } from 'redux/types'
 
-import axios from 'axios'
-
 export const submitWorkout = (workout, date) => {
   return dispatch => {
     dispatch({ type: SUBMIT_WORKOUT, workout, date })
-    dispatch(saveStateToServer(workout))
     dispatch(updateExerciseOnServer(workout))
   }
 }
@@ -19,20 +18,8 @@ export const updateExerciseOnServer = workout => {
   return () => {
     axios({
       method: 'post',
-      url: EXERCISE_URL(process),
-      data: {
-        date: Date.now(),
-        workoutExercises: workout,
-      },
-    })
-  }
-}
-
-export const saveStateToServer = workout => {
-  return () => {
-    axios({
-      method: 'post',
-      url: WORKOUT_URL(process),
+      url:
+        'https://zn14621n56.execute-api.us-east-1.amazonaws.com/default/gym-workout-post-workout',
       data: {
         date: Date.now(),
         workoutExercises: workout,

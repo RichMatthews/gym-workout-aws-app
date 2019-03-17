@@ -1,6 +1,7 @@
 import { EXERCISE_URL } from 'urls'
 import { SET_CURRENT_EXERCISE } from 'redux/types'
 import axios from 'axios'
+import { push } from 'connected-react-router'
 
 export const searchForExercise = exercise => {
   return dispatch => {
@@ -12,6 +13,7 @@ export const searchForExercise = exercise => {
         ex => ex.name.toLowerCase() === exercise.value.toLowerCase()
       )
       dispatch(setCurrentExercise(foundExercise[0]))
+      dispatch(push(`/search/${exercise.name}`))
     })
   }
 }
@@ -30,8 +32,8 @@ export const resetExerciseSearch = () => {
 }
 
 export const addExerciseToCurrentWorkout = exercise => {
+  console.log(exercise, 'e1')
   return dispatch => {
     dispatch({ type: 'ADD_EXERCISE_TO_CURRENT_WORKOUT', exercise })
-    dispatch({ type: 'TOGGLE_MODAL' })
   }
 }

@@ -1,11 +1,14 @@
 import React from 'react'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import Graph from 'components/graph'
-import { toggleModal } from 'redux/action-creators/modal'
 import { addExerciseToCurrentWorkout } from 'redux/action-creators/exercises'
 import { AddExercise } from '../addExercise'
-import { Button } from 'components/shared/button'
+import arrow from 'components/search/arrow.svg'
+import backArrow from 'components/search/back-arrow.svg'
 
 const Container = styled.div`
   display: flex;
@@ -15,16 +18,8 @@ const Container = styled.div`
   background: #000;
 `
 
-const SearchContainer = styled.div`
-  width: 100%;
-`
-
 const SearchResult = styled.div`
   font-size: 18px;
-`
-
-const NoSearchResult = styled.div`
-  padding: 10px;
 `
 
 const ExerciseName = styled.h3`
@@ -35,131 +30,102 @@ const ExerciseName = styled.h3`
   text-transform: uppercase;
 `
 
-const LastLifted = styled.div`
+const ExerciseNameContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1rem;
-  width: 100px;
-  text-align: center;
-`
-
-const LastLiftedContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  text-align: center;
   background: #2b2b29;
-  margin: 1rem;
-  border-radius: 15px;
-`
-
-const LastLiftedAmount = styled.div`
-  width: 40px;
-  height: 40px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border: 1px solid #fff;
-  border-radius: 30px;
-  padding: 5px;
-  margin-bottom: 0.5rem;
-`
-const LastLiftedLabel = styled.p`
-  margin: 0;
-  font-size: 12px;
 `
 
 const GenericContainer = styled.div`
-  border-radius: 10px;
-  margin: 1rem;
-  padding: 5px;
   background: #2b2b29;
+  margin-top: 10px;
+  text-align: center;
+  border-radius: 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
 `
 
-const GenericButton = styled.button`
-  width: 100%;
-  padding: 5px;
-  margin: 2px;
-  border-radius: 5px;
-  border: none;
-`
-const AddExerciseButton = styled(GenericButton)`
-  background: green;
+const ImageContainer = styled.div`
+  width: 15px;
+  height: 25px;
 `
 
-const SearchAgainButton = styled(GenericButton)`
-  background: red;
-`
-
-export class SearchedExercise extends React.Component {
+class SearchedExercise extends React.Component {
   state = {
-    addExercise: false,
+    showGraph: false,
+    showAddExercise: false,
+    currentExercise: '',
+  }
+
+  componentDidMount() {
+    const exercise = window.localStorage.getItem('current')
+    this.setState({ currentExercise: JSON.parse(exercise) })
   }
 
   render() {
-    let renderSearchResult
     const {
-      exerciseData,
       addExerciseToCurrentWorkout,
-      resetExerciseSearch,
     } = this.props
-    if (exerciseData.current.previousWeights) {
-      renderSearchResult = (
+    const { currentExercise, showAddExercise, showGraph } = this.state
+    return (
+      <Container>
         <SearchResult>
-          <ExerciseName> {exerciseData.current.name} </ExerciseName>
-          <GenericContainer>
-            <LastLiftedContainer>
-              <LastLifted>
-                <LastLiftedAmount>
-                  {' '}
-                  {exerciseData.current.lastWeightLifted}kg{' '}
-                </LastLiftedAmount>
-                <LastLiftedLabel> Last lifted weight </LastLiftedLabel>
-              </LastLifted>
-              <LastLifted>
-                <LastLiftedAmount> 11/02 </LastLiftedAmount>
-                <LastLiftedLabel> Last lifted date </LastLiftedLabel>
-              </LastLifted>
-            </LastLiftedContainer>
+          <ExerciseNameContainer>
+            <ImageContainer>
+              <Link to={'/search'}>
+                <img src={backArrow} alt=""/>
+              </Link>
+            </ImageContainer>
+            <ExerciseName>{currentExercise.name}</ExerciseName>
+          </ExerciseNameContainer>
+          <GenericContainer
+            onClick={() => this.setState({ showAddExercise: !showAddExercise })}
+          >
+            <span> Add to current workout </span>
+            <ImageContainer>
+              <img src={arrow} alt=""/>
+            </ImageContainer>
           </GenericContainer>
-          <GenericContainer>
-            <Graph currentExercise={exerciseData.current} />
+          {showAddExercise ? (
+            <AddExercise
+              exerciseInfo={this.state.currentExercise}
+              addExerciseToCurrentWorkout={addExerciseToCurrentWorkout}
+            />
+          ) : null}
+          <GenericContainer
+            onClick={() => this.setState({ showGraph: !showAddExercise })}
+          >
+            <span> Progress </span>
+            <ImageContainer>
+              <img src={arrow} alt="" />
+            </ImageContainer>
           </GenericContainer>
+          {showGraph ? <Graph /> : null}
           <GenericContainer>
-            {this.state.addExercise ? (
-              <AddExercise
-                addExerciseToCurrentWorkout={addExerciseToCurrentWorkout}
-                exerciseData={exerciseData}
-                cancelAddingWorkout={() =>
-                  this.setState({ addExercise: false })
-                }
-              />
-            ) : (
-              <div>
-                <AddExerciseButton
-                  onClick={() => this.setState({ addExercise: true })}
-                >
-                  add exercise
-                </AddExerciseButton>
-                <SearchAgainButton onClick={() => resetExerciseSearch()}>
-                  search again
-                </SearchAgainButton>
-              </div>
-            )}
+            <span> Workout Calendar </span>
+            <ImageContainer>
+              <img src={arrow} alt="" />
+            </ImageContainer>
           </GenericContainer>
+          <div> 22kg </div>
         </SearchResult>
-      )
-    } else {
-      renderSearchResult = (
-        <NoSearchResult>
-          You have no previous records for this weight
-        </NoSearchResult>
-      )
-    }
-    return <Container> {renderSearchResult} </Container>
+      </Container>
+    )
   }
 }
+
+const mapStateToProps = ({ exerciseData }) => ({
+  exerciseData,
+})
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    { addExerciseToCurrentWorkout },
+    dispatch
+  )
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SearchedExercise)

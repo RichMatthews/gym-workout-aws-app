@@ -2,8 +2,10 @@ import { applyMiddleware, compose, createStore } from 'redux'
 
 import Main from 'components/main'
 import Search from 'components/search'
+import SearchedExercise from 'components/search/searchedExercise'
 import { Nav } from 'components/nav'
 import CurrentWorkout from 'components/currentWorkout'
+import PreviousWorkouts from 'components/previousWorkouts'
 import { ConnectedRouter, routerMiddleware } from 'connected-react-router'
 import { Route, Switch } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
@@ -44,8 +46,15 @@ class App extends React.Component {
             <Switch>
               <Route exact path="/" component={Main} />
               <Route exact path="/search" component={Search} />
+              <Route
+                exact
+                path="/search/:exerciseName"
+                component={SearchedExercise}
+              />
               <Route exact path="/current" component={CurrentWorkout} />
+              <Route exact path="/previous" component={PreviousWorkouts} />
             </Switch>
+            <Nav />
           </div>
         </ConnectedRouter>
       </Provider>

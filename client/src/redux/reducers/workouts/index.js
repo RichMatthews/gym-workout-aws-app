@@ -2,6 +2,7 @@ import {
   SAVE_WORKOUT,
   SUBMIT_WORKOUT,
   TOGGLE_SHOWING_WORKOUT,
+  ADD_EXERCISE_TO_CURRENT_WORKOUT,
 } from 'redux/types'
 
 const initialState = {
@@ -35,7 +36,21 @@ export default (state = initialState, action) => {
             : workout
         ),
       }
-    case 'ADD_EXERCISE_TO_CURRENT_WORKOUT':
+    case ADD_EXERCISE_TO_CURRENT_WORKOUT:
+      const isLocalStorage = window.localStorage.getItem('currentWorkout')
+      if (isLocalStorage) {
+        const parsedLocalStorage = JSON.parse(isLocalStorage)
+        const updatedLocalStorage = parsedLocalStorage.concat(action.exercise)
+        window.localStorage.setItem(
+          'currentWorkout',
+          JSON.stringify(updatedLocalStorage)
+        )
+      } else {
+        window.localStorage.setItem(
+          'currentWorkout',
+          JSON.stringify([action.exercise])
+        )
+      }
       return {
         ...state,
         currentWorkout: state.currentWorkout.concat(action.exercise),
